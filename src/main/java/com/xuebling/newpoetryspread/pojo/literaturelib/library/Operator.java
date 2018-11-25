@@ -1,0 +1,31 @@
+package com.xuebling.newpoetryspread.pojo.literaturelib.library;
+
+public class Operator {
+    private String userId;
+    private String name;
+    private String time;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+}
