@@ -13,8 +13,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+@Document(collection="Library")
 public class Library{
-    @BsonId
+//    @BsonId
+    @Id
+    @Indexed
     private ObjectId id;
     private String repoName;
     private String types;
