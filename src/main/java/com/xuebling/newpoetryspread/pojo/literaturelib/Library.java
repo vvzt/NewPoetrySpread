@@ -18,22 +18,22 @@ public class Library{
 //    @BsonId
     @Id
     @Indexed
-    private ObjectId id;
-    private String repoName;
-    private String types;
+    private ObjectId id = new ObjectId();
+    private String repoName="hhh";
+    private String types="视听库";
     private String description="asdasd";
-    private LibState state;
-    private Operator creator;
+    private LibState state = LibState.using;
+    //可以有多个吗
+    private Operator creator=new Operator();
     private Operator locker;
     private Operator deleter;
-    private ArrayList<String> subRepos;//存放子库的id
-    private LinkedList<Literature> docs;//直接存放文档
+    private ArrayList<Library> subRepos = new ArrayList<>();//存放子库
+    private String docsCollection;//存放文档集合名
 
-    //将一个元素放到文档集合里
-    public void pushDocs(Literature item){
-        this.docs.add(item);
+
+    public void addSubRepo(Library library){
+        this.subRepos.add(library);
     }
-
     public ObjectId getId() {
         return id;
     }
@@ -98,19 +98,35 @@ public class Library{
         this.deleter = deleter;
     }
 
-    public ArrayList<String> getSubRepos() {
+    public ArrayList<Library> getSubRepos() {
         return subRepos;
     }
 
-    public void setSubRepos(ArrayList<String> subRepos) {
+    public void setSubRepos(ArrayList<Library> subRepos) {
         this.subRepos = subRepos;
     }
 
-    public LinkedList<Literature> getDocs() {
-        return docs;
+    public String getDocsCollection() {
+        return docsCollection;
     }
 
-    public void setDocs(LinkedList<Literature> docs) {
-        this.docs = docs;
+    public void setDocsCollection(String docsCollection) {
+        this.docsCollection = docsCollection;
+    }
+
+    @Override
+    public String toString() {
+        return "Library{" +
+                "id=" + id +
+                ", repoName='" + repoName + '\'' +
+                ", types='" + types + '\'' +
+                ", description='" + description + '\'' +
+                ", state=" + state +
+                ", creator=" + creator +
+                ", locker=" + locker +
+                ", deleter=" + deleter +
+                ", subRepos=" + subRepos +
+                ", docsCollection='" + docsCollection + '\'' +
+                '}';
     }
 }
