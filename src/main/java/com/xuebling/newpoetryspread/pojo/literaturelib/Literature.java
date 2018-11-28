@@ -3,9 +3,10 @@ package com.xuebling.newpoetryspread.pojo.literaturelib;
 import com.xuebling.newpoetryspread.pojo.literaturelib.literature.BasePlace;
 import com.xuebling.newpoetryspread.pojo.literaturelib.literature.BaseTime;
 import com.xuebling.newpoetryspread.pojo.literaturelib.literature.BaseType;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 @Document(collection="#{mongoConfig.getCollectionName()}")
 public class Literature implements Serializable {
     @Id
+    @Indexed
     private String id;
     @NotNull
     private String mediaType;//媒体类型,txt | picture | audio | video,暂时不用枚举类吧

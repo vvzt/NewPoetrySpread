@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,18 +16,21 @@ import java.util.LinkedList;
 
 @Document(collection="Library")
 public class Library{
-//    @BsonId
     @Id
     @Indexed
     private ObjectId id = new ObjectId();
-    private String repoName="hhh";
-    private String types="视听库";
-    private String description="asdasd";
+    @NotNull
+    private String repoName;
+    @NotNull
+    private String types;
+    private String description;
     private LibState state = LibState.using;
     //可以有多个吗
-    private Operator creator=new Operator();
+    @NotNull
+    private Operator creator;
     private Operator locker;
     private Operator deleter;
+    @Null
     private ArrayList<Library> subRepos = new ArrayList<>();//存放子库
     private String docsCollection;//存放文档集合名
 

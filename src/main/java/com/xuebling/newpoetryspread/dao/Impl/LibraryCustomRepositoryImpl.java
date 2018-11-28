@@ -17,6 +17,7 @@ import java.util.Optional;
 public class LibraryCustomRepositoryImpl implements LibraryCustomRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
+    //大量使用了try-catch语句,甚至递归里面都有try-catch,这不好,怎么改进呢
     private ArrayList<Integer> getIndex(ArrayList<String> id) throws NoSuchElementException{
         try {
             Optional<Library> library = findOne(id.get(0));
@@ -55,7 +56,7 @@ public class LibraryCustomRepositoryImpl implements LibraryCustomRepository {
             if(lib.isPresent()){
                 return getIndex(lib.get().getSubRepos(),id,index);
             }else {
-                throw new Exception("没有找到该子文档");
+                throw new NoSuchElementException("没有找到该子文档");
             }
         }catch (Exception e){
             e.printStackTrace();
