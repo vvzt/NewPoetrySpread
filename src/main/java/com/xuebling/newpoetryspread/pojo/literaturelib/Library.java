@@ -27,7 +27,9 @@ public class Library{
     private Operator creator=new Operator();
     private Operator locker;
     private Operator deleter;
+
     private ArrayList<Library> subRepos = new ArrayList<>();//存放子库
+
     private String docsCollection;//存放文档集合名
 
 

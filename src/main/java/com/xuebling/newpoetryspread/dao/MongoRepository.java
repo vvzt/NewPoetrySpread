@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 //一个mongoDB的dao,通过此接口调用mongo的方法
 public interface MongoRepository {
+
+
     //获取数据库实例
     void setConfig(String collectionName);
     MongoDatabase getDb();
