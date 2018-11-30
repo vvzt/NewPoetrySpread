@@ -32,12 +32,12 @@ public class Literature implements Serializable {
     @NotNull
     private String language;
 
-    private ArrayList<String> editors;
-    private ArrayList<String> keywords;
-    private String wholeText;
+    private ArrayList<String> editors;//编辑者
+    private ArrayList<String> keywords;//关键字
+    private String wholeText;//全文
     private String subject;//主题
     private String digest;//摘要
-    private String source;
+    private String source;//
     private BasePlace publishPlace;
     private BaseTime publishTime;
     private BaseTime createTime;
