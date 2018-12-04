@@ -28,7 +28,7 @@ public class LibraryCustomRepositoryImpl implements LibraryCustomRepository {
             return getIndex(library.get().getSubRepos(),id,index);
         }catch (NoSuchElementException e){
             e.printStackTrace();
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("没有找到该文档");
         }
     }
     private Optional<Library> findOne(String id){
@@ -82,6 +82,7 @@ public class LibraryCustomRepositoryImpl implements LibraryCustomRepository {
             /**构建查询语句结束**/
             return sql.toString();
         }catch (Exception e){
+            e.printStackTrace();
             throw new Exception();
         }
 
@@ -115,10 +116,13 @@ public class LibraryCustomRepositoryImpl implements LibraryCustomRepository {
 //            System.out.println("embed文档为"+library.toString());
             return library;
         }catch (NoSuchElementException e){
+            e.printStackTrace();
             throw new NoSuchElementException("文档不存在");
         }catch (IndexOutOfBoundsException e){
+            e.printStackTrace();
             throw new IndexOutOfBoundsException("文档不存在");
         }catch (Exception e){
+            e.printStackTrace();
             throw new Exception("文档不存在");
         }
     }
@@ -166,6 +170,7 @@ public class LibraryCustomRepositoryImpl implements LibraryCustomRepository {
             mongoTemplate.updateFirst(query,update,Library.class);
             return true;
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }

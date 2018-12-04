@@ -3,7 +3,6 @@ package com.xuebling.newpoetryspread.pojo.literaturelib;
 import com.xuebling.newpoetryspread.pojo.literaturelib.literature.BasePlace;
 import com.xuebling.newpoetryspread.pojo.literaturelib.literature.BaseTime;
 import com.xuebling.newpoetryspread.pojo.literaturelib.literature.BaseType;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -32,12 +31,12 @@ public class Literature implements Serializable {
     @NotNull
     private String language;
 
-    private ArrayList<String> editors;
-    private ArrayList<String> keywords;
-    private String wholeText;
+    private ArrayList<String> editors;//编辑者
+    private ArrayList<String> keywords;//关键字
+    private String wholeText;//全文
     private String subject;//主题
     private String digest;//摘要
-    private String source;
+    private String source;//
     private BasePlace publishPlace;
     private BaseTime publishTime;
     private BaseTime createTime;
