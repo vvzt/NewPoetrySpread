@@ -4,6 +4,7 @@ import com.xuebling.newpoetryspread.pojo.enums.LibState;
 import com.xuebling.newpoetryspread.pojo.literaturelib.library.Operator;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,7 +14,6 @@ import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
-
 @Document(collection="Library")
 public class Library{
     @Id

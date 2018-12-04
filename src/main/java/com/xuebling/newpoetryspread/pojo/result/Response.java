@@ -13,6 +13,11 @@ public class Response {
         this.code = msg.getCode();
         this.msg = msg.getMsg();
     }
+    //根据错误信息构造
+    public Response(String code,String msg){
+        this.code = code;
+        this.msg = msg;
+    }
     /** 返回信息码*/
     private String code="000";
     /** 返回信息内容*/
