@@ -11,6 +11,7 @@ import com.xuebling.newpoetryspread.pojo.literaturelib.Library;
 import com.xuebling.newpoetryspread.pojo.literaturelib.Literature;
 import com.xuebling.newpoetryspread.pojo.result.Response;
 import com.xuebling.newpoetryspread.pojo.result.ResponseData;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,6 @@ public class RepoController {
     private LiteratureRepository literatureRepository;
     @Autowired
     private LibraryRepository libraryRepository;
-    @Autowired
-    private HttpServletRequest request;
     @GetMapping(path = "test")
     public Object test(){
         /**  **/
@@ -99,8 +98,8 @@ public class RepoController {
     public Object createRepo(HttpServletRequest request,@Valid Library library) {
         //校验信息
         logger.info(library.toString());
-        ArrayList<String> id = (ArrayList<String>)request.getAttribute("id");
         try{
+            ArrayList<String> id = (ArrayList<String>)request.getAttribute("id");
             libraryRepository.insertEmbedDoc(id,library);
             return new Response(ResponseMsg.SUCCESS);
         }catch (Exception e){
@@ -120,22 +119,17 @@ public class RepoController {
     }
     //修改文献库
     @PostMapping(path = "**")
-    public Object modifyRepo(HttpServletRequest request, JSONObject object) {
+    public Object modifyRepo(HttpServletRequest request, @RequestBody JSONObject object) {
         //对比修改
-        ArrayList<String> id = (ArrayList<String>)request.getAttribute("id");
         Set<String> keySet = object.keySet();
         Iterator iterator = keySet.iterator();
-        try{
-            //利用spring的序列化自动判断异常
-            JSON.toJavaObject(object,Library.class);
-        }catch (Exception e){
-            e.printStackTrace();
-            return new Response(ResponseMsg.DATAILLEGAL);
-        }
+        ArrayList<String> id = (ArrayList<String>)request.getAttribute("id");
         //遍历键,修改
+        //如何对属性做验证呢
         while (iterator.hasNext()){
             //如果未更新成功
-            if (!libraryRepository.updateEmbedDoc(id,iterator.next().toString(),object.get(iterator.next().toString()))){
+            String key = iterator.next().toString();
+            if (!libraryRepository.updateEmbedDoc(id,key,object.get(key))){
                 return new Response(ResponseMsg.FIELDNONE);
             }
         }
@@ -144,7 +138,8 @@ public class RepoController {
     //迁移库
     @PostMapping(path = "movement")
     public Object moveRepo() {
-        return new Object();
+
+        return new Response(ResponseMsg.SUCCESS);
     }
     //备份库
     @GetMapping(path = "backup/**")

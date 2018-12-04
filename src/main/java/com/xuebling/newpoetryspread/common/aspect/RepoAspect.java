@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 @Component
 @Aspect
 public class RepoAspect {
-    @Pointcut("execution(* com.xuebling.newpoetryspread.controller.RepoController.*(javax.servlet.http.HttpServletRequest)) && args(request)")
+    @Pointcut("execution(* com.xuebling.newpoetryspread.controller.RepoController.*(javax.servlet.http.HttpServletRequest,..)) && args(request,..)")
     public void handleRequest(HttpServletRequest request){
         //只是一个切入点,不需要做任何事
     }
@@ -27,7 +27,10 @@ public class RepoAspect {
         Matcher matcher = pattern.matcher(request.getRequestURI());
         String repoId = matcher.replaceFirst("");
         ArrayList<String> id = RepoUtils.transformURL(repoId);
+        System.out.println("id为"+id.toString());
         request.setAttribute("id",id);
-        return joinPoint.proceed(new Object[]{request});
+        Object[] objects = joinPoint.getArgs();
+        objects[0] = request;
+        return joinPoint.proceed(objects);
     }
 }

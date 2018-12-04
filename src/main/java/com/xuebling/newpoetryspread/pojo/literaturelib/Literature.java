@@ -3,7 +3,6 @@ package com.xuebling.newpoetryspread.pojo.literaturelib;
 import com.xuebling.newpoetryspread.pojo.literaturelib.literature.BasePlace;
 import com.xuebling.newpoetryspread.pojo.literaturelib.literature.BaseTime;
 import com.xuebling.newpoetryspread.pojo.literaturelib.literature.BaseType;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
