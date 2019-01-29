@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 @RestController
 @RequestMapping("/user")
@@ -22,7 +23,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    /* 用户激活 */
+    /* 用户激活
     @PutMapping(path = "/{userId}/valid")
     public Object validUser(@PathVariable(value = "userId") String userId) {
         try{
@@ -31,27 +32,33 @@ public class UserController {
         } catch (Exception e){
             return new Response(ResponseMsg.FAIL);
         }
-    }
+    } */
 
     /* 添加用户 */
     @PutMapping(path = "")
-    public Object addUser(@RequestBody @Valid Editor userObj, BindingResult bindingResult) {
-        try{
-            userRepository.save(userObj);
-            return new ResponseData(ResponseMsg.SUCCESS, userObj);
-        } catch (Exception e){
+    public Object addUser(@RequestBody @Valid Editor editor, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
             return new ResponseData(ResponseMsg.FAIL, bindingResult.getFieldError().getDefaultMessage());
+        }
+        try{
+            userRepository.save(editor);
+            return new Response(ResponseMsg.SUCCESS);
+        } catch (Exception e){
+            return new Response(ResponseMsg.FAIL);
         }
     }
 
     /* 修改用户 */
     @PostMapping(path = "/{userId}")
     public Object updateUser(@PathVariable(value = "userId") String userId, @RequestBody @Valid Editor editor, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return new ResponseData(ResponseMsg.FAIL, bindingResult.getFieldError().getDefaultMessage());
+        }
         try{
             userRepository.updateById(userId, editor);
             return new Response(ResponseMsg.SUCCESS);
         } catch (Exception e){
-            return new ResponseData(ResponseMsg.FAIL, bindingResult.getFieldError().getDefaultMessage());
+            return new Response(ResponseMsg.FAIL);
         }
     }
 
@@ -67,19 +74,22 @@ public class UserController {
     }
 
     /* 用户权限分配 */
-    @PutMapping(path = "/{userId}/level")
-    public Object setLevel(@PathVariable(value = "userId") String userId, @RequestBody Integer level, BindingResult bindingResult) {
+    @PostMapping(path = "/{userId}/level/{level}")
+    public Object setLevel(@PathVariable(value = "userId") @NotEmpty String userId, @PathVariable(value = "level") Integer level) {
+        if(level > 3 || level < 0) {
+            return new Response(ResponseMsg.FAIL);
+        }
         try{
             userRepository.updateLevelById(userId, level);
             return new Response(ResponseMsg.SUCCESS);
         }catch (Exception e){
-            return new ResponseData(ResponseMsg.FAIL, bindingResult.getFieldError().getDefaultMessage());
+            return new Response(ResponseMsg.FAIL);
         }
     }
 
     /* 用户锁定 */
-    @PostMapping(path = "/{userId}/lock")
-    public Object lockUser(@PathVariable(value = "userId") String userId) {
+    @PutMapping(path = "/{userId}/lock")
+    public Object lockUser(@PathVariable(value = "userId") @NotEmpty String userId) {
         try{
             userRepository.updateLockById(userId, 1);
             return new Response(ResponseMsg.SUCCESS);
@@ -88,8 +98,8 @@ public class UserController {
         }
     }
     /* 用户解锁 */
-    @PostMapping(path = "/{userId}/unlock")
-    public Object unlockUser(@PathVariable(value = "userId") String userId) {
+    @DeleteMapping(path = "/{userId}/lock")
+    public Object unlockUser(@PathVariable(value = "userId") @NotEmpty String userId) {
         try{
             userRepository.updateLockById(userId, 0);
             return new Response(ResponseMsg.SUCCESS);

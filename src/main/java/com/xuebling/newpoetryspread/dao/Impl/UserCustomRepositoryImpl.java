@@ -16,23 +16,21 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
         Query query = new Query(Criteria.where("_id").is(id));
         Update update = new Update();
         update.set("nickname", editor.getNickname());
+        update.set("account", editor.getAccount());
+        update.set("token", editor.getToken());
         update.set("avatar", editor.getAvatar());
         update.set("level", editor.getLevel());
         update.set("lock", editor.getLock());
         mongoTemplate.updateFirst(query, update, Editor.class, "User");
     }
-    public void updateLockById(String id, Integer lock) {
-        Query query = new Query(Criteria.where("_id").is(id));
-        Update update = new Update().set("lock", lock);
-        FindAndModifyOptions options = new FindAndModifyOptions();
-        options.returnNew(true);
-        mongoTemplate.findAndModify(query, update, options, boolean.class);
-    }
     public void updateLevelById(String id, Integer level) {
         Query query = new Query(Criteria.where("_id").is(id));
         Update update = new Update().set("level", level);
-        FindAndModifyOptions options = new FindAndModifyOptions();
-        options.returnNew(true);
-        mongoTemplate.findAndModify(query, update, options, Integer.class);
+        mongoTemplate.updateFirst(query, update, Editor.class);
+    }
+    public void updateLockById(String id, Integer lock) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update().set("lock", lock);
+        mongoTemplate.updateFirst(query, update, Editor.class);
     }
 }

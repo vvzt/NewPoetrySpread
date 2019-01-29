@@ -1,8 +1,6 @@
 package com.xuebling.newpoetryspread.pojo.user;
 
 import org.bson.types.ObjectId;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,19 +12,19 @@ public class Editor {
     @Id
     @Indexed
     private ObjectId id = new ObjectId();//id
-    @NotEmpty(message = "用户名不能为空")
+    @NotBlank(message = "用户名不能为空")
     private String account;
-    @NotEmpty(message = "密码不能为空")
+    @NotBlank(message = "密码不能为空")
     private String token;
-    @NotEmpty(message = "用户昵称不能为空")
+    @NotBlank(message = "用户昵称不能为空")
     private String nickname;//昵称
-    private String avatar;//头像名称
-    @Max(1)
-    @Min(0)
+    private String avatar = "";//头像名称
+    @Max(value = 1, message = "lock为1锁定，lock为0解锁")
+    @Min(value = 0, message = "lock为1锁定，lock为0解锁")
     private Integer lock;//锁定
-    @Max(value = 3, message = "最低等级为1，最高等级为3")
-    @Min(value = 1, message = "最低等级为1，最高等级为3")
-    private Integer level;//用户等级
+    @Max(value = 3, message = "level最低为1，level最高为3")
+    @Min(value = 1, message = "level最低为1，level最高为3")
+    private Integer level = 0;//用户等级
 
     public ObjectId getId() {
         return id;
